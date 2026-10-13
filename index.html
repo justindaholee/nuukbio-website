@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NuukBio. A closer look at living biology.">
+  <meta name="theme-color" content="#f5f4ef">
+  <title>NuukBio — A closer look at living biology</title>
+  <link rel="icon" href="nuukbio-logo.png" type="image/png">
+  <style>
+    :root { color-scheme: light dark; --paper:#f5f4ef; --ink:#171916; --muted:#666960; --rule:#d6d7ce; --chart-axis:#7a7e70; --grid:#dfe0d8; --cell-1:#63764e; --cell-2:#9d6847; --cell-3:#786c91; --surface-1:#e7ecdf; --surface-2:#f0e5dc; --surface-3:#e6e4ed; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:Arial, Helvetica, sans-serif; -webkit-font-smoothing:antialiased; }
+    a { color:inherit; text-underline-offset:5px; }
+    a:focus-visible { outline:2px solid var(--ink); outline-offset:7px; }
+    .wrap { max-width:1440px; padding:0 6.25%; margin:auto; }
+    header { min-height:112px; height:auto; flex-wrap:wrap; gap:12px; padding:18px 0; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--rule); }
+    .wordmark { display:inline-flex; align-items:center; gap:12px; text-decoration:none; font-size:1.5625rem; font-weight:600; letter-spacing:-1.1px; }
+    .brand-logo { width:29px; height:auto; display:block; mix-blend-mode:multiply; }
+    nav { display:flex; gap:32px; font-size:0.8125rem; }
+    nav a { text-decoration:none; }
+    nav a:hover { text-decoration:underline; }
+    .hero { min-height:650px; display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,1fr); align-items:center; gap:9%; padding:84px 0 100px; }
+    .eyebrow { font-size:.75rem; letter-spacing:1.5px; text-transform:uppercase; font-weight:500; margin:0 0 34px; }
+    h1 { font-size:clamp(2.875rem,5.5vw,5.125rem); line-height:1.04; font-weight:400; letter-spacing:-.045em; margin:0; max-width:700px; }
+    .intro { font-size:1.0625rem; line-height:1.65; color:var(--muted); max-width:380px; margin:32px 0 0; }
+    .living-cell { width:100%; max-width:470px; justify-self:end; }
+    .visual-title { font-size:1.375rem; line-height:1.3; font-weight:400; letter-spacing:-.7px; margin:0 0 8px; }
+    .visual-takeaway { font-size:0.875rem; line-height:1.5; margin:14px 0 0; letter-spacing:-.2px; }
+    .living-cell svg text { font-family:Arial,sans-serif; }
+    .living-cell svg { width:100%; height:auto; display:block; }
+    .visual-footer { display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--rule); margin-top:16px; padding-top:12px; }
+    .visual-footer span { font-size:.75rem; color:var(--muted); }
+    .motion-toggle { padding:6px 0 6px 12px; border:0; background:transparent; color:var(--muted); font:.6875rem Arial,sans-serif; cursor:pointer; }
+    .motion-toggle:hover { color:var(--ink); }
+    .motion-toggle:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
+    .details { border-top:1px solid var(--rule); display:grid; grid-template-columns:1fr 1fr; gap:9%; padding:48px 0 68px; }
+    .detail .eyebrow { color:var(--muted); margin-bottom:24px; }
+    h2 { font-size:1.6875rem; line-height:1.25; font-weight:400; letter-spacing:-.7px; max-width:440px; margin:0 0 17px; }
+    .detail p:last-child { font-size:0.9375rem; line-height:1.7; max-width:440px; margin:0; color:var(--muted); }
+    .contact { display:flex; justify-content:space-between; align-items:center; gap:24px; padding:37px 0; border-top:1px solid var(--rule); }
+    .contact p { font-size:0.9375rem; margin:0; color:var(--muted); }
+    .contact a { text-decoration:none; font-size:clamp(1.3125rem,2.4vw,2rem); letter-spacing:-.8px; }
+    .contact a:hover { text-decoration:underline; }
+    .arrow { margin-left:15px; font-size:1.5rem; }
+    footer { padding:25px 0 32px; border-top:1px solid var(--rule); display:flex; justify-content:space-between; font-size:0.6875rem; color:var(--muted); }
+    @media (min-width:1600px) { .hero { min-height:720px; } }
+    @media (max-width:900px) {
+      .wrap { padding:0 7%; } header { min-height:86px; } nav { gap:20px; font-size:.8125rem; }
+      .hero { min-height:auto; grid-template-columns:1fr; gap:56px; padding:60px 0; }
+      h1 { font-size:clamp(2.375rem,10vw,4.25rem); } .intro { font-size:1.0rem; }
+      .living-cell { width:100%; max-width:440px; justify-self:center; }
+      .brand-logo { width:25px; } .wordmark { gap:9px; font-size:1.4375rem; }
+      .details { grid-template-columns:1fr; gap:43px; padding:38px 0 48px; }
+      h2 { font-size:1.5625rem; } .visual-title { font-size:1.375rem; } .contact { align-items:flex-start; flex-direction:column; padding:30px 0; gap:16px; }
+      nav a { display:inline-flex; align-items:center; min-height:44px; }
+      .motion-toggle { min-height:44px; white-space:nowrap; }
+      .visual-footer { gap:12px; } .visual-footer span { line-height:1.5; }
+      .contact a { overflow-wrap:anywhere; }
+    }
+    @media (max-width:400px) {
+      header { height:auto; min-height:86px; flex-wrap:wrap; gap:4px 16px; padding:18px 0 8px; }
+      nav { width:100%; justify-content:space-between; }
+      .hero { padding:42px 0; gap:40px; }
+    }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
+    .skip-link { position:fixed; top:12px; left:12px; z-index:10; padding:12px; background:var(--paper); transform:translateY(-200%); }
+    .skip-link:focus { transform:none; }
+    .cell-legend { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin:8px 0 16px; text-align:center; font-size:.8125rem; color:var(--muted); }
+    .legend-mark { width:26px; height:0; border-top:2px solid var(--cell-1); display:inline-block; vertical-align:middle; margin-right:5px; }
+    .legend-mark.two { border-color:var(--cell-2); border-top-style:dashed; }
+    .legend-mark.three { border-color:var(--cell-3); border-top-style:dotted; }
+    .phase-caption { font-size:.8125rem; line-height:1.5; color:var(--muted); margin:0 0 8px; min-height:1.5em; }
+    .chart-labels { margin-top:8px; text-align:center; color:var(--muted); font-size:.8125rem; line-height:1.5; }
+    .response-trace { vector-effect:non-scaling-stroke; }
+    .response-trace:nth-child(2) { stroke-dasharray:7 4; }
+    .response-trace:nth-child(3) { stroke-dasharray:1 5; }
+    nav a, .wordmark, .motion-toggle, .contact a { min-height:44px; }
+    nav a, .contact a { display:inline-flex; align-items:center; }
+    .visual-footer { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:12px; border-top:0; margin-top:4px; padding-top:0; }
+    .visual-footer span { font-size:.75rem; line-height:1.5; }
+    .motion-toggle { font-size:.8125rem; }
+    .phase-caption { display:grid; }
+    .phase-caption span { grid-area:1 / 1; }
+    .caption-enter { animation:caption-in .45s ease both; }
+    .caption-exit { animation:caption-out .35s ease both; }
+    @keyframes caption-in { from { opacity:0; } to { opacity:1; } }
+    @keyframes caption-out { from { opacity:1; } to { opacity:0; } }
+    .animation-scenes { display:grid; align-items:center; }
+    .response-scene { grid-area:1 / 1; min-width:0; will-change:opacity,transform; }
+    .scale-scene { grid-area:1 / 1; min-width:0; opacity:0; pointer-events:none; }
+    .scale-scene svg { width:100%; }
+    .scale-caption { color:var(--muted); font-size:.8125rem; line-height:1.5; margin:0 0 16px; }
+    .scale-tile path { vector-effect:non-scaling-stroke; stroke-width:1.25; }
+    .scale-static .scale-scene { grid-area:2 / 1; opacity:1; margin-top:24px; border-top:1px solid var(--rule); padding-top:24px; }
+    .scale-static .response-scene { opacity:1 !important; transform:none !important; }
+    @media (prefers-color-scheme:dark) {
+      :root { --paper:#191c18; --ink:#f1f2eb; --muted:#b8beb1; --rule:#41463c; --chart-axis:#989f8c; --grid:#363c32; --cell-1:#afc28d; --cell-2:#dfac89; --cell-3:#bfb0d6; --surface-1:#303b29; --surface-2:#403029; --surface-3:#342e40; }
+      .brand-logo { filter:invert(1); mix-blend-mode:screen; }
+    }
+    @media (prefers-contrast:more) {
+      :root { --muted:var(--ink); --chart-axis:var(--ink); --rule:var(--ink); --grid:var(--chart-axis); }
+      .response-trace { stroke-width:3; }
+      .cell-halo, .tip-halo { display:none; }
+    }
+    @media (forced-colors:active) {
+      :root { --paper:Canvas; --ink:CanvasText; --muted:CanvasText; --rule:CanvasText; --chart-axis:CanvasText; --grid:GrayText; --cell-1:CanvasText; --cell-2:CanvasText; --cell-3:CanvasText; --surface-1:Canvas; --surface-2:Canvas; --surface-3:Canvas; }
+      svg { forced-color-adjust:none; } .brand-logo { filter:none; mix-blend-mode:normal; background:white; }
+      .cell-halo, .tip-halo, .cell-highlights { display:none; }
+      .legend-mark { border-color:CanvasText; }
+    }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .living-cell * { animation:none; } .motion-toggle { display:none; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="wrap">
+    <header>
+      <a class="wordmark" href="./" aria-label="NuukBio home"><img class="brand-logo" src="nuukbio-logo.png" alt="" width="1439" height="1600">NuukBio</a>
+      <nav aria-label="Main navigation"><a href="#approach">Our approach</a><a href="#contact">Contact ↗</a></nav>
+    </header>
+    <main id="main" tabindex="-1">
+      <section class="hero" aria-labelledby="headline">
+        <div>
+          <p class="eyebrow">A closer look at living biology</p>
+          <h1 id="headline">Life moves.<br>So should the way<br>we study it.</h1>
+          <p class="intro">We believe studying human biology in motion helps us understand it better.</p>
+        </div>
+        <div class="living-cell" role="group" aria-labelledby="animation-heading" aria-describedby="animation-description">
+          <h2 class="visual-title" id="animation-heading">Similar snapshots. Different stories.</h2>
+          <p id="animation-description" class="sr-only">Illustrative curves: Cell 01 rises briefly, Cell 02 stays elevated longer, and Cell 03 rises later. Cells 01 and 02 finish at the same level; Cell 03 finishes higher. Solid, dashed, and dotted lines identify each cell. The animation then shows the mean activity of 48 illustrative cells as one curve, before revealing those individual cells and their different activity traces. Not experimental data.</p>
+          <p id="phase-label" class="phase-caption" aria-hidden="true"></p>
+          <div class="animation-scenes">
+          <div class="response-scene">
+          <svg viewBox="0 80 440 80" aria-hidden="true" focusable="false">
+            <defs>
+              <radialGradient id="cell-light"><stop stop-color="white" stop-opacity=".85"/><stop offset="1" stop-color="white" stop-opacity="0"/></radialGradient>
+              <filter id="soft-glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="5"/></filter>
+            </defs>
+            <g stroke-width="1.2">
+              <circle cx="72" cy="117" r="29" fill="var(--surface-1)" stroke="var(--cell-1)"/>
+              <circle cx="220" cy="117" r="29" fill="var(--surface-2)" stroke="var(--cell-2)"/>
+              <circle cx="368" cy="117" r="29" fill="var(--surface-3)" stroke="var(--cell-3)"/>
+            </g>
+            <g filter="url(#soft-glow)"><circle class="cell-halo" cx="72" cy="117" r="19" fill="var(--cell-1)"/><circle class="cell-halo" cx="220" cy="117" r="19" fill="var(--cell-2)"/><circle class="cell-halo" cx="368" cy="117" r="19" fill="var(--cell-3)"/></g>
+            <g><circle class="cell-state" cx="72" cy="117" r="10" fill="var(--cell-1)"/><circle class="cell-state" cx="220" cy="117" r="10" fill="var(--cell-2)"/><circle class="cell-state" cx="368" cy="117" r="10" fill="var(--cell-3)"/></g>
+            <g class="cell-highlights" fill="url(#cell-light)"><circle cx="65" cy="108" r="20"/><circle cx="213" cy="108" r="20"/><circle cx="361" cy="108" r="20"/></g>
+          </svg>
+          <div class="cell-legend" aria-hidden="true"><span><i class="legend-mark"></i>Cell 01</span><span><i class="legend-mark two"></i>Cell 02</span><span><i class="legend-mark three"></i>Cell 03</span></div>
+          <svg viewBox="0 225 440 150" aria-hidden="true" focusable="false">
+            <defs><filter id="graph-glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="5"/></filter></defs>
+            <g fill="none" stroke="var(--grid)" stroke-width=".7"><path d="M20 244H420 M20 285H420 M20 326H420"/></g>
+            <path d="M20 235V365H420" fill="none" stroke="var(--chart-axis)" stroke-width="1"/>
+            
+            <g id="endpoint-guide" opacity="0"><path d="M420 235V365" fill="none" stroke="var(--chart-axis)" stroke-dasharray="2 5"/><circle cx="420" cy="300.6" r="9" fill="var(--paper)" stroke="var(--ink)" stroke-width="1"/><circle cx="420" cy="265.5" r="7" fill="var(--paper)" stroke="var(--cell-3)" stroke-width="1"/></g>
+            <g fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path class="response-trace" stroke="var(--cell-1)"/><path class="response-trace" stroke="var(--cell-2)"/><path class="response-trace" stroke="var(--cell-3)"/></g>
+            <g id="average-overlay" opacity="0"><path id="average-trace" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round" vector-effect="non-scaling-stroke" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></g>
+            <path id="scan-line" d="M20 238V362" stroke="var(--chart-axis)" stroke-width=".6" opacity=".5"/>
+            <g filter="url(#graph-glow)" opacity=".35"><circle class="tip-halo" r="7" fill="var(--cell-1)"/><circle class="tip-halo" r="7" fill="var(--cell-2)"/><circle class="tip-halo" r="7" fill="var(--cell-3)"/></g>
+            <g><circle class="trace-tip" r="3.5" fill="var(--cell-1)"/><circle class="trace-tip" r="3.5" fill="var(--cell-2)"/><circle class="trace-tip" r="3.5" fill="var(--cell-3)"/></g>
+          </svg>
+          <div class="chart-labels" aria-hidden="true">Activity over time</div>
+          </div>
+          <div class="scale-scene" aria-hidden="true">
+            <svg class="scale-field" viewBox="0 0 440 324" aria-hidden="true" focusable="false"></svg>
+          </div>
+          </div>
+          <p class="visual-takeaway">Neither a snapshot nor an average tells the whole story.</p>
+          <div class="visual-footer"><span>Illustrative curves · not experimental data</span><button class="motion-toggle" type="button" aria-label="Pause animation">Pause motion</button></div>
+        </div>
+      </section>
+      <section class="details" id="approach" aria-label="Our approach">
+        <div class="detail">
+          <p class="eyebrow">01 / What we believe</p>
+          <h2>Time matters in biology.</h2>
+          <p>Living systems change. We believe following those changes is essential to understanding them.</p>
+        </div>
+        <div class="detail">
+          <p class="eyebrow">02 / What we’re working on</p>
+          <h2>A clearer view of human biology.</h2>
+          <p>We’re building tools to study living cells and better understand human biology.</p>
+        </div>
+      </section>
+      <section class="contact" id="contact" aria-label="Contact NuukBio">
+        <p>For conversations and collaborations.</p>
+        <a href="mailto:desk@nuukbio.com">desk@nuukbio.com<span class="arrow" aria-hidden="true">↗</span></a>
+      </section>
+    </main>
+    <footer><span>© 2026 NuukBio</span><span>NuukBio</span></footer>
+  </div>
+  <script>
+    const motionButton = document.querySelector('.motion-toggle');
+    const traces = [...document.querySelectorAll('.response-trace')];
+    const tips = [...document.querySelectorAll('.trace-tip')];
+    const tipHalos = [...document.querySelectorAll('.tip-halo')];
+    const cells = [...document.querySelectorAll('.cell-state')];
+    const cellHalos = [...document.querySelectorAll('.cell-halo')];
+    const phaseLabel = document.querySelector('#phase-label');
+    const endpointGuide = document.querySelector('#endpoint-guide');
+    const responseScene = document.querySelector('.response-scene');
+    const averageOverlay = document.querySelector('#average-overlay');
+    const chartCaption = document.querySelector('.chart-labels');
+    const averageTrace = document.querySelector('#average-trace');
+    const scaleScene = document.querySelector('.scale-scene');
+    const scaleField = document.querySelector('.scale-field');
+    const animationScenes = document.querySelector('.animation-scenes');
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const scaleTiles = [];
+    for (let i = 0; i < 48; i++) {
+      const group = document.createElementNS(svgNS, 'g');
+      group.setAttribute('class', 'scale-tile');
+      const category = i % 3;
+      const color = `var(--cell-${category + 1})`;
+      const cell = document.createElementNS(svgNS, 'circle');
+      cell.setAttribute('cx', 5); cell.setAttribute('cy', 6); cell.setAttribute('r', 3);
+      cell.setAttribute('fill', color);
+      const trace = document.createElementNS(svgNS, 'path');
+      trace.setAttribute('fill', 'none'); trace.setAttribute('stroke', color);
+      trace.setAttribute('stroke-linecap', 'round');
+      if (category === 1) trace.setAttribute('stroke-dasharray', '4 2');
+      if (category === 2) trace.setAttribute('stroke-dasharray', '1 3');
+      group.append(cell, trace); scaleField.append(group);
+      scaleTiles.push({group, cell, trace, category, x: 8 + (i % 8) * 54, y: 10 + Math.floor(i / 8) * 54, variation: .82 + ((i * 7) % 13) / 40});
+    }
+    let tracesFinished = false;
+    function renderScale(reveal, time, staticView) {
+      responseScene.style.opacity = String(1 - smooth(reveal / .65));
+      responseScene.style.transform = `scale(${1 - reveal * .035})`;
+      scaleScene.style.opacity = String(smooth((reveal - .25) / .75));
+      animationScenes.classList.toggle('scale-static', staticView);
+      scaleTiles.forEach((tile, i) => {
+        const delay = (Math.floor(i / 8) + i % 8) / 60;
+        const local = staticView ? 1 : smooth((reveal - .25 - delay) / .55);
+        tile.group.setAttribute('opacity', local);
+        tile.group.setAttribute('transform', `translate(${tile.x} ${tile.y + 6 * (1 - local)})`);
+        const points = [];
+        const end = staticView ? 1 : clamp(local * 1.4);
+        for (let step = 0; step <= 60 * end; step++) {
+          const t = step / 60;
+          points.push(`${3 + t * 43},${40 - response(tile.category, t) * 25 * tile.variation}`);
+        }
+        tile.trace.setAttribute('d', 'M' + points.join(' L'));
+        tile.cell.setAttribute('opacity', .45 + response(tile.category, end) * .55);
+      });
+    }
+    function meanResponse(t) {
+      return scaleTiles.reduce((sum, tile) => sum + response(tile.category, t) * tile.variation, 0) / scaleTiles.length;
+    }
+    function renderAverage(enter, leave) {
+      const blend = smooth(enter);
+      averageOverlay.setAttribute('opacity', blend);
+      averageTrace.setAttribute('stroke-dashoffset', 1 - blend);
+      traces.forEach(trace => { trace.style.opacity = String(1 - .82 * smooth((enter - .35) / .65)); });
+      [...tips, ...tipHalos].forEach(tip => { tip.style.opacity = String(1 - blend); });
+      endpointGuide.setAttribute('opacity', tracesFinished ? 1 - blend : 0);
+
+      const points = [];
+      for (let step = 0; step <= 200; step++) {
+        const t = step / 200;
+        points.push(`${20 + t * 400},${354 - meanResponse(t) * 118}`);
+      }
+      averageTrace.setAttribute('d', 'M' + points.join(' L'));
+    }
+    const scanLine = document.querySelector('#scan-line');
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    let paused = false, elapsed = 0, previous = null;
+    const clamp = x => Math.max(0, Math.min(1, x));
+    const smooth = x => { x = clamp(x); return x * x * (3 - 2 * x); };
+    function response(index, t) {
+      const u = Math.max(0, t - .18);
+      const values = [1.6 * (1 - Math.exp(-u * 32)) * Math.exp(-u * 6), .82 * (1 - Math.exp(-u * 16)), .70 * smooth((u - .22) / .28)];
+      const convergence = smooth((t - .69) / .31);
+      const endpoint = index === 2 ? .75 : .45;
+      return values[index] * (1 - convergence) + endpoint * convergence;
+    }
+    function render(progress) {
+      tracesFinished = progress >= 1;
+      traces.forEach((trace, index) => {
+        const points = [];
+        for (let step = 0; step <= 300 * progress; step++) {
+          const t = step / 300;
+          points.push(`${20 + t * 400},${354 - response(index, t) * 118}`);
+        }
+        const x = 20 + progress * 400, y = 354 - response(index, progress) * 118;
+        points.push(`${x},${y}`);
+        trace.setAttribute('d', 'M' + points.join(' L'));
+        [tips[index], tipHalos[index]].forEach(tip => { tip.setAttribute('cx', x); tip.setAttribute('cy', y); });
+        const value = response(index, progress);
+        cells[index].setAttribute('opacity', .32 + value * .68);
+        cells[index].setAttribute('r', 9 + value * 9);
+        cellHalos[index].setAttribute('opacity', .12 + value * .65);
+      });
+
+      endpointGuide.setAttribute('opacity', tracesFinished ? 1 : 0);
+      scanLine.setAttribute('transform', `translate(${progress * 400} 0)`);
+      scanLine.setAttribute('opacity', progress >= 1 ? 0 : .5);
+
+    }
+    let captionText = '';
+    function setCaption(text) {
+      if (text === captionText) return;
+      const outgoing = document.createElement('span');
+      outgoing.className = 'caption-exit'; outgoing.textContent = captionText;
+      const incoming = document.createElement('span');
+      incoming.className = 'caption-enter'; incoming.textContent = text;
+      phaseLabel.replaceChildren(outgoing, incoming);
+      captionText = text;
+    }
+    function frame(now) {
+      if (previous !== null && !paused && !document.hidden && !reducedMotion.matches) elapsed += Math.min(now - previous, 100) * 1.2;
+      previous = now;
+      const cycle = elapsed % 27500;
+      setCaption(reducedMotion.matches ? 'Different histories. Every cell matters.' : cycle < 10000 ? '' : cycle < 11500 ? 'Different paths. Similar endings.' : cycle < 17500 ? 'One average. Many hidden histories.' : 'Many cells. Each with a story.');
+      render(reducedMotion.matches ? 1 : clamp((cycle - 500) / 10500));
+      const expansion = clamp((cycle - 17500) / 3200);
+      renderAverage(reducedMotion.matches ? 1 : clamp((cycle - 11500) / 3200), reducedMotion.matches ? 0 : expansion);
+      renderScale(reducedMotion.matches ? 1 : expansion, clamp((cycle - 18500) / 5500), reducedMotion.matches);
+      if (!reducedMotion.matches) requestAnimationFrame(frame);
+    }
+    motionButton.addEventListener('click', () => {
+      paused = !paused;
+      motionButton.setAttribute('aria-label', paused ? 'Resume animation' : 'Pause animation');
+      motionButton.textContent = paused ? 'Resume motion' : 'Pause motion';
+    });
+    reducedMotion.addEventListener('change', () => { previous = null; requestAnimationFrame(frame); });
+    requestAnimationFrame(frame);
+  </script>
+</body>
+</html>

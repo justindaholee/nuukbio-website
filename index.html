@@ -141,7 +141,7 @@
         </div>
         <div class="living-cell" role="group" aria-labelledby="animation-heading" aria-describedby="animation-description">
           <h2 class="visual-title" id="animation-heading">Similar snapshots. Different stories.</h2>
-          <p id="animation-description" class="sr-only">Illustrative curves: Cell 01 rises briefly, Cell 02 stays elevated longer, and Cell 03 rises later. Cells 01 and 02 finish at the same level; Cell 03 finishes higher. Solid, dashed, and dotted lines identify each cell. The animation then shows the mean activity of 48 illustrative cells as one curve, before revealing those individual cells and their different activity traces. Not experimental data.</p>
+          <p id="animation-description" class="sr-only">Illustrative curves: Cell 01 rises briefly, Cell 02 stays elevated longer, and Cell 03 rises later. Cells 01 and 02 finish at the same level; Cell 03 finishes higher. Solid, dashed, and dotted lines identify each cell. The animation then shows the point-by-point arithmetic mean of Cells 01, 02, and 03 as one curve, before expanding to a larger illustrative field of individual cell histories. Not experimental data.</p>
           <p id="phase-label" class="phase-caption" aria-hidden="true"></p>
           <div class="animation-scenes">
           <div class="response-scene">
@@ -257,7 +257,7 @@
       });
     }
     function meanResponse(t) {
-      return scaleTiles.reduce((sum, tile) => sum + response(tile.category, t) * tile.variation, 0) / scaleTiles.length;
+      return (response(0, t) + response(1, t) + response(2, t)) / 3;
     }
     function renderAverage(enter, leave) {
       const blend = smooth(enter);
